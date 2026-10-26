@@ -1,0 +1,20 @@
+{
+  "name": "proyecto-metricas-web",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Automatización de métricas web con Cypress y Lighthouse",
+  "scripts": {
+    "cy:open": "cypress open",
+    "cy:run": "cypress run",
+    "audit": "node scripts/run-audit.js",
+    "scheduler": "node scripts/scheduler.js",
+    "report": "http-server report -p 4173 -c-1",
+    "validate:config": "node scripts/validate-config.js"
+  },
+  "devDependencies": {
+    "cypress": "^16.2.0",
+    "cypress-audit": "^1.1.0",
+    "http-server": "^14.1.1",
+    "node-cron": "^4.6.0"
+  }
+}
