@@ -1,1 +1,1 @@
-require('cypress-audit/commands');
+require('./commands');

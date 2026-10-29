@@ -11,6 +11,8 @@
 ## Architecture and data flow
 
 - `config/pages.js`, `config/devices.js`, `config/schedule.js`, and `config/thresholds.js` are the configuration sources. Add pages/devices there rather than duplicating test logic.
+- Follow the Cypress hierarchy: keep specifications in `cypress/e2e/`, static test data in `cypress/fixtures/`, reusable commands in `cypress/support/commands.js`, and global support loading in `cypress/support/e2e.js`.
+- `cypress/plugins/` is retained for the academic folder convention. This project uses Cypress 10+, so Node event handlers and tasks belong in `cypress.config.js` through `setupNodeEvents()` rather than in a legacy plugins file.
 - `cypress/e2e/lighthouse.cy.js` creates page/device combinations dynamically. A page with no `http://` or `https://` URL is skipped, so a passing placeholder test does not represent Lighthouse coverage.
 - `cypress.config.js` wires `cypress-audit`, normalizes Lighthouse callbacks, classifies metrics, and appends successful or failed runs to `data/results.json`. Keep that JSON tracked because it is the execution history.
 - Jobs are passed from `scripts/run-audit.js` as `--env job=...`; Cypress 16 reads the value with `Cypress.expose('job')`. Do not replace this with the removed `Cypress.env()` API.

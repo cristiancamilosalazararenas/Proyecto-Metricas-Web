@@ -50,8 +50,14 @@ config/
   schedule.js      # Jobs independientes y zona horaria
   thresholds.js    # Rangos configurables de clasificación
 cypress/
-  e2e/             # Pruebas Lighthouse organizadas por Cypress
-  support/         # Comandos y configuración de soporte
+  e2e/             # Especificaciones de prueba (*.cy.js)
+  fixtures/        # Datos estáticos reutilizables en pruebas
+  plugins/         # Integraciones/tareas; reservado por la estructura académica
+  support/
+    commands.js    # Comandos reutilizables, incluido Lighthouse
+    e2e.js         # Carga global de soporte
+  screenshots/     # Evidencias generadas por Cypress (no versionadas)
+  videos/          # Videos generados por Cypress (no versionados)
 data/
   results.json     # Historial generado automáticamente
 report/            # Informe web que lee data/results.json
