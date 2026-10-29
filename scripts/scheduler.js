@@ -27,10 +27,12 @@ function runJob(job) {
 
   console.log(`[scheduler] Ejecutando ${job.id} (${today} ${job.timezone})`);
   const npmCommand = process.platform === 'win32' ? 'npm.cmd' : 'npm';
-  const child = spawn(npmCommand, ['run', 'audit', '--', '--job', job.id], {
+  const child = spawn(npmCommand, ['run', 'audit', '--', '--job', job.id, '--browser', 'chrome'], {
     cwd: projectRoot,
-    stdio: 'inherit'
+    stdio: 'inherit',
+    shell: process.platform === 'win32'
   });
+  child.on('error', (error) => console.error(`[scheduler] No se pudo iniciar ${job.id}: ${error.message}`));
   child.on('exit', (code) => console.log(`[scheduler] ${job.id} terminó con código ${code}`));
 }
 

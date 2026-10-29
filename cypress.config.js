@@ -1,7 +1,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { defineConfig } = require('cypress');
-const { lighthouse, prepareAudit } = require('cypress-audit');
+const { lighthouse, prepareAudit } = require('@cypress-audit/lighthouse');
 const { classifyMetric } = require('./config/thresholds');
 
 let currentRunContext = null;
@@ -13,12 +13,44 @@ function readHistory(filePath) {
   return Array.isArray(parsed) ? parsed : parsed.runs || [];
 }
 
+function sleep(milliseconds) {
+  Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, milliseconds);
+}
+
+function withHistoryLock(filePath, callback) {
+  const lockPath = `${filePath}.lock`;
+  const deadline = Date.now() + 10_000;
+  let lockHandle;
+
+  while (!lockHandle) {
+    try {
+      lockHandle = fs.openSync(lockPath, 'wx');
+    } catch (error) {
+      if (error.code !== 'EEXIST' || Date.now() >= deadline) throw error;
+      sleep(25);
+    }
+  }
+
+  try {
+    return callback();
+  } finally {
+    fs.closeSync(lockHandle);
+    try {
+      fs.unlinkSync(lockPath);
+    } catch (error) {
+      if (error.code !== 'ENOENT') throw error;
+    }
+  }
+}
+
 function appendResult(projectRoot, result) {
   const filePath = path.join(projectRoot, 'data', 'results.json');
   fs.mkdirSync(path.dirname(filePath), { recursive: true });
-  const history = readHistory(filePath);
-  history.push(result);
-  fs.writeFileSync(filePath, `${JSON.stringify(history, null, 2)}\n`, 'utf8');
+  withHistoryLock(filePath, () => {
+    const history = readHistory(filePath);
+    history.push(result);
+    fs.writeFileSync(filePath, `${JSON.stringify(history, null, 2)}\n`, 'utf8');
+  });
 }
 
 function normalizeReport(report) {
@@ -50,8 +82,10 @@ function normalizeReport(report) {
 }
 
 module.exports = defineConfig({
+  taskTimeout: 180000,
   expose: {
-    job: null
+    job: null,
+    page: null
   },
   e2e: {
     supportFile: 'cypress/support/e2e.js',
@@ -60,10 +94,14 @@ module.exports = defineConfig({
     setupNodeEvents(on, config) {
       config.expose = {
         ...config.expose,
-        job: config.env?.job || null
+        job: config.env?.job || null,
+        page: config.env?.page || null
       };
 
       on('before:browser:launch', (_browser = {}, launchOptions) => {
+        if (_browser.family === 'chromium') {
+          launchOptions.args.push('--disable-gpu', '--disable-dev-shm-usage');
+        }
         prepareAudit(launchOptions);
         return launchOptions;
       });

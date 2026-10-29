@@ -30,7 +30,10 @@ npm run cy:open
 npm run cy:run
 
 # Ejecutar un job concreto de la configuración
-npm run audit -- --job mobile-diario
+npm run audit -- --job mobile-diario-20
+
+# Ejecutar un job para una sola página (útil para repetir una auditoría)
+npm run audit -- --job mobile-diario-20 --page voluntariado --browser chrome
 
 # Levantar el informe web en http://localhost:4173
 npm run report
@@ -70,7 +73,7 @@ cypress.config.js  # Integración de cypress-audit y persistencia JSON
 
 ## Programación
 
-`config/schedule.js` contiene dos jobs independientes: uno móvil y otro de escritorio. Cada job permite configurar habilitación, fecha de inicio, hora, zona horaria, frecuencia, páginas y dispositivos. El archivo solo declara la configuración; `scripts/scheduler.js` es el proceso que realmente registra y ejecuta las tareas.
+`config/schedule.js` contiene jobs independientes para móvil y escritorio. Actualmente hay ejecuciones diarias a las 20:00 y 22:00 (`America/Bogota`) para las tres páginas. Cada job permite configurar habilitación, fecha de inicio, hora, zona horaria, frecuencia, páginas y dispositivos. El archivo solo declara la configuración; `scripts/scheduler.js` es el proceso que realmente registra y ejecuta las tareas.
 
 La zona horaria solicitada por la profesora es `America/Bogota`. GitHub Actions puede ser una alternativa para mantener el scheduler activo, pero sus expresiones cron se interpretan habitualmente en UTC; si se usa esa opción, hay que documentar la conversión y conservar evidencia de las ejecuciones.
 

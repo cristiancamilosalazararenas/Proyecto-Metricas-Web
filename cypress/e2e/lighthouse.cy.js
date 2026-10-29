@@ -3,13 +3,17 @@ const devicesConfig = require('../../config/devices');
 const { jobs } = require('../../config/schedule');
 
 const requestedJobId = Cypress.expose('job');
+const requestedPageId = Cypress.expose('page');
 const requestedJob = requestedJobId ? jobs.find((job) => job.id === requestedJobId) : null;
 const configuredPages = pagesConfig.filter((page) => /^https?:\/\//i.test(page.url || ''));
 const configuredDevices = Object.values(devicesConfig);
 
-const selectedPages = requestedJob
+const jobPages = requestedJob
   ? configuredPages.filter((page) => requestedJob.pages.includes(page.id))
   : configuredPages;
+const selectedPages = requestedPageId
+  ? jobPages.filter((page) => page.id === requestedPageId)
+  : jobPages;
 const selectedDevices = requestedJob
   ? configuredDevices.filter((device) => requestedJob.devices.includes(device.id))
   : configuredDevices;
@@ -18,6 +22,13 @@ describe('Métricas Lighthouse de páginas institucionales', () => {
   if (requestedJobId && !requestedJob) {
     it('rechaza un job inexistente', () => {
       throw new Error(`No existe el job "${requestedJobId}" en config/schedule.js`);
+    });
+    return;
+  }
+
+  if (requestedPageId && !configuredPages.some((page) => page.id === requestedPageId)) {
+    it('rechaza una página inexistente', () => {
+      throw new Error(`No existe la página "${requestedPageId}" en config/pages.js`);
     });
     return;
   }

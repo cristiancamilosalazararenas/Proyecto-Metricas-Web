@@ -1,24 +1,45 @@
+const pages = ['voluntariado', 'financiacion', 'internacionalizacion'];
+
 const jobs = [
   {
-    id: 'mobile-diario',
-    enabled: false,
-    startDate: '2026-10-27',
-    time: '08:00',
+    id: 'mobile-diario-20',
+    enabled: true,
+    startDate: '2026-10-29',
+    time: '20:00',
     timezone: 'America/Bogota',
     frequency: 'daily',
     devices: ['mobile'],
-    pages: ['pagina-integrante-1', 'pagina-integrante-2', 'pagina-integrante-3']
+    pages
   },
   {
-    id: 'desktop-semanal',
-    enabled: false,
-    startDate: '2026-10-27',
-    time: '09:00',
+    id: 'desktop-diario-20',
+    enabled: true,
+    startDate: '2026-10-29',
+    time: '20:00',
     timezone: 'America/Bogota',
-    frequency: 'weekly',
-    dayOfWeek: 1,
+    frequency: 'daily',
     devices: ['desktop'],
-    pages: ['pagina-integrante-1', 'pagina-integrante-2', 'pagina-integrante-3']
+    pages
+  },
+  {
+    id: 'mobile-diario-22',
+    enabled: true,
+    startDate: '2026-10-29',
+    time: '22:00',
+    timezone: 'America/Bogota',
+    frequency: 'daily',
+    devices: ['mobile'],
+    pages
+  },
+  {
+    id: 'desktop-diario-22',
+    enabled: true,
+    startDate: '2026-10-29',
+    time: '22:00',
+    timezone: 'America/Bogota',
+    frequency: 'daily',
+    devices: ['desktop'],
+    pages
   }
 ];
 

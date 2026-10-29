@@ -1,1 +1,342 @@
-[]
+[
+  {
+    "url": "https://www.autonoma.edu.co/voluntariado",
+    "screenEmulation": "Moto G4 (412x823)",
+    "timestamp": "2026-10-29T23:04:08.879Z",
+    "firstContentfulPaint": 1616,
+    "largestContentfulPaint": 1624.0331497192383,
+    "speedIndex": 2304.840446584809,
+    "performance": 71,
+    "status": "ok",
+    "error": null,
+    "classification": {
+      "firstContentfulPaint": "Bueno",
+      "largestContentfulPaint": "Bueno",
+      "speedIndex": "Bueno",
+      "performance": "Por mejorar"
+    }
+  },
+  {
+    "url": "https://www.autonoma.edu.co/voluntariado",
+    "screenEmulation": "Moto G4 (412x823)",
+    "timestamp": "2026-10-29T23:04:44.676Z",
+    "firstContentfulPaint": 1652,
+    "largestContentfulPaint": 1660.0331497192383,
+    "speedIndex": 2358.257331619211,
+    "performance": 70,
+    "status": "ok",
+    "error": null,
+    "classification": {
+      "firstContentfulPaint": "Bueno",
+      "largestContentfulPaint": "Bueno",
+      "speedIndex": "Bueno",
+      "performance": "Por mejorar"
+    }
+  },
+  {
+    "url": "https://www.autonoma.edu.co/voluntariado",
+    "screenEmulation": "Moto G4 (412x823)",
+    "timestamp": "2026-10-29T23:05:39.937Z",
+    "firstContentfulPaint": 1612,
+    "largestContentfulPaint": 1620.0331497192383,
+    "speedIndex": 2036.1674544165942,
+    "performance": 71,
+    "status": "ok",
+    "error": null,
+    "classification": {
+      "firstContentfulPaint": "Bueno",
+      "largestContentfulPaint": "Bueno",
+      "speedIndex": "Bueno",
+      "performance": "Por mejorar"
+    }
+  },
+  {
+    "url": "https://www.autonoma.edu.co/voluntariado",
+    "screenEmulation": "Moto G4 (412x823)",
+    "timestamp": "2026-10-29T23:06:08.560Z",
+    "firstContentfulPaint": 1597.481550961012,
+    "largestContentfulPaint": 1597.481550961012,
+    "speedIndex": 2257.2446364000616,
+    "performance": 71,
+    "status": "ok",
+    "error": null,
+    "classification": {
+      "firstContentfulPaint": "Bueno",
+      "largestContentfulPaint": "Bueno",
+      "speedIndex": "Bueno",
+      "performance": "Por mejorar"
+    }
+  },
+  {
+    "url": "https://www.autonoma.edu.co/financiacion",
+    "screenEmulation": "Moto G4 (412x823)",
+    "timestamp": "2026-10-29T23:08:21.173Z",
+    "firstContentfulPaint": 1603,
+    "largestContentfulPaint": 1611.0331497192383,
+    "speedIndex": 4909.226949642143,
+    "performance": 59,
+    "status": "ok",
+    "error": null,
+    "classification": {
+      "firstContentfulPaint": "Bueno",
+      "largestContentfulPaint": "Bueno",
+      "speedIndex": "Por mejorar",
+      "performance": "Por mejorar"
+    }
+  },
+  {
+    "url": "https://www.autonoma.edu.co/internacionalizacion",
+    "screenEmulation": "Moto G4 (412x823)",
+    "timestamp": "2026-10-29T23:08:52.270Z",
+    "firstContentfulPaint": 1439,
+    "largestContentfulPaint": 1447.0331497192383,
+    "speedIndex": 5476.02042099297,
+    "performance": 57,
+    "status": "ok",
+    "error": null,
+    "classification": {
+      "firstContentfulPaint": "Bueno",
+      "largestContentfulPaint": "Bueno",
+      "speedIndex": "Por mejorar",
+      "performance": "Por mejorar"
+    }
+  },
+  {
+    "url": "https://www.autonoma.edu.co/voluntariado",
+    "screenEmulation": "Moto G4 (412x823)",
+    "timestamp": "2026-10-29T23:09:20.557Z",
+    "firstContentfulPaint": 1624,
+    "largestContentfulPaint": 1632.0331497192383,
+    "speedIndex": 2492.364720533662,
+    "performance": 69,
+    "status": "ok",
+    "error": null,
+    "classification": {
+      "firstContentfulPaint": "Bueno",
+      "largestContentfulPaint": "Bueno",
+      "speedIndex": "Bueno",
+      "performance": "Por mejorar"
+    }
+  },
+  {
+    "url": "https://www.autonoma.edu.co/financiacion",
+    "screenEmulation": "Moto G4 (412x823)",
+    "timestamp": "2026-10-29T23:10:11.426Z",
+    "firstContentfulPaint": 1616,
+    "largestContentfulPaint": 1624.0331497192383,
+    "speedIndex": 4690.197275728191,
+    "performance": 59,
+    "status": "ok",
+    "error": null,
+    "classification": {
+      "firstContentfulPaint": "Bueno",
+      "largestContentfulPaint": "Bueno",
+      "speedIndex": "Por mejorar",
+      "performance": "Por mejorar"
+    }
+  },
+  {
+    "url": "https://www.autonoma.edu.co/financiacion",
+    "screenEmulation": "Moto G4 (412x823)",
+    "timestamp": "2026-10-29T23:11:21.270Z",
+    "firstContentfulPaint": 1614,
+    "largestContentfulPaint": 1622.0331497192383,
+    "speedIndex": 4808.908038692366,
+    "performance": 60,
+    "status": "ok",
+    "error": null,
+    "classification": {
+      "firstContentfulPaint": "Bueno",
+      "largestContentfulPaint": "Bueno",
+      "speedIndex": "Por mejorar",
+      "performance": "Por mejorar"
+    }
+  },
+  {
+    "url": "https://www.autonoma.edu.co/financiacion",
+    "screenEmulation": "Moto G4 (412x823)",
+    "timestamp": "2026-10-29T23:13:57.420Z",
+    "firstContentfulPaint": 1206.2359999999999,
+    "largestContentfulPaint": 1829.9634218902588,
+    "speedIndex": 3506.5807832758005,
+    "performance": 72,
+    "status": "ok",
+    "error": null,
+    "classification": {
+      "firstContentfulPaint": "Bueno",
+      "largestContentfulPaint": "Bueno",
+      "speedIndex": "Por mejorar",
+      "performance": "Por mejorar"
+    }
+  },
+  {
+    "url": "https://www.autonoma.edu.co/voluntariado",
+    "screenEmulation": "Moto G4 (412x823)",
+    "timestamp": "2026-10-29T23:14:30.367Z",
+    "firstContentfulPaint": 1409.65,
+    "largestContentfulPaint": 1942.6443158874513,
+    "speedIndex": 1596.0687855918136,
+    "performance": 83,
+    "status": "ok",
+    "error": null,
+    "classification": {
+      "firstContentfulPaint": "Bueno",
+      "largestContentfulPaint": "Bueno",
+      "speedIndex": "Bueno",
+      "performance": "Por mejorar"
+    }
+  },
+  {
+    "url": "https://www.autonoma.edu.co/financiacion",
+    "screenEmulation": "Moto G4 (412x823)",
+    "timestamp": "2026-10-29T23:14:45.761Z",
+    "firstContentfulPaint": 1056.3,
+    "largestContentfulPaint": 1097.3,
+    "speedIndex": 2684.8058901444388,
+    "performance": 73,
+    "status": "ok",
+    "error": null,
+    "classification": {
+      "firstContentfulPaint": "Bueno",
+      "largestContentfulPaint": "Bueno",
+      "speedIndex": "Bueno",
+      "performance": "Por mejorar"
+    }
+  },
+  {
+    "url": "https://www.autonoma.edu.co/internacionalizacion",
+    "screenEmulation": "Moto G4 (412x823)",
+    "timestamp": "2026-10-29T23:15:04.038Z",
+    "firstContentfulPaint": 1123.8056,
+    "largestContentfulPaint": 1165.8056,
+    "speedIndex": 2613.2180807800005,
+    "performance": 78,
+    "status": "ok",
+    "error": null,
+    "classification": {
+      "firstContentfulPaint": "Bueno",
+      "largestContentfulPaint": "Bueno",
+      "speedIndex": "Bueno",
+      "performance": "Por mejorar"
+    }
+  },
+  {
+    "url": "https://www.autonoma.edu.co/voluntariado",
+    "screenEmulation": "Desktop (1350x940)",
+    "timestamp": "2026-10-29T23:15:32.253Z",
+    "firstContentfulPaint": 1310.617,
+    "largestContentfulPaint": 1843.0549999999998,
+    "speedIndex": 1424.0812514895497,
+    "performance": 59,
+    "status": "ok",
+    "error": null,
+    "classification": {
+      "firstContentfulPaint": "Bueno",
+      "largestContentfulPaint": "Bueno",
+      "speedIndex": "Bueno",
+      "performance": "Por mejorar"
+    }
+  },
+  {
+    "url": "https://www.autonoma.edu.co/financiacion",
+    "screenEmulation": "Desktop (1350x940)",
+    "timestamp": "2026-10-29T23:16:00.196Z",
+    "firstContentfulPaint": 1107.618,
+    "largestContentfulPaint": 1209.118,
+    "speedIndex": 4574.178175224828,
+    "performance": 56,
+    "status": "ok",
+    "error": null,
+    "classification": {
+      "firstContentfulPaint": "Bueno",
+      "largestContentfulPaint": "Bueno",
+      "speedIndex": "Por mejorar",
+      "performance": "Por mejorar"
+    }
+  },
+  {
+    "url": "https://www.autonoma.edu.co/internacionalizacion",
+    "screenEmulation": "Desktop (1350x940)",
+    "timestamp": "2026-10-29T23:16:18.800Z",
+    "firstContentfulPaint": 1120.4587000000001,
+    "largestContentfulPaint": 1192.4587000000001,
+    "speedIndex": 2495.9165878341087,
+    "performance": 61,
+    "status": "ok",
+    "error": null,
+    "classification": {
+      "firstContentfulPaint": "Bueno",
+      "largestContentfulPaint": "Bueno",
+      "speedIndex": "Bueno",
+      "performance": "Por mejorar"
+    }
+  },
+  {
+    "url": "https://www.autonoma.edu.co/internacionalizacion",
+    "screenEmulation": "Moto G4 (412x823)",
+    "timestamp": "2026-10-29T23:20:57.336Z",
+    "firstContentfulPaint": 1235.3919999999998,
+    "largestContentfulPaint": 1924.926,
+    "speedIndex": 3668.9798113980714,
+    "performance": 70,
+    "status": "ok",
+    "error": null,
+    "classification": {
+      "firstContentfulPaint": "Bueno",
+      "largestContentfulPaint": "Bueno",
+      "speedIndex": "Por mejorar",
+      "performance": "Por mejorar"
+    }
+  },
+  {
+    "url": "https://www.autonoma.edu.co/voluntariado",
+    "screenEmulation": "Desktop (1350x940)",
+    "timestamp": "2026-10-29T23:21:31.745Z",
+    "firstContentfulPaint": 1292.774,
+    "largestContentfulPaint": 1810.1097898254393,
+    "speedIndex": 1295.8116397448234,
+    "performance": 60,
+    "status": "ok",
+    "error": null,
+    "classification": {
+      "firstContentfulPaint": "Bueno",
+      "largestContentfulPaint": "Bueno",
+      "speedIndex": "Bueno",
+      "performance": "Por mejorar"
+    }
+  },
+  {
+    "url": "https://www.autonoma.edu.co/financiacion",
+    "screenEmulation": "Desktop (1350x940)",
+    "timestamp": "2026-10-29T23:21:59.813Z",
+    "firstContentfulPaint": 1100.463,
+    "largestContentfulPaint": 1170.463,
+    "speedIndex": 4603.731293331005,
+    "performance": 56,
+    "status": "ok",
+    "error": null,
+    "classification": {
+      "firstContentfulPaint": "Bueno",
+      "largestContentfulPaint": "Bueno",
+      "speedIndex": "Por mejorar",
+      "performance": "Por mejorar"
+    }
+  },
+  {
+    "url": "https://www.autonoma.edu.co/internacionalizacion",
+    "screenEmulation": "Desktop (1350x940)",
+    "timestamp": "2026-10-29T23:22:18.156Z",
+    "firstContentfulPaint": 1136.8121999999998,
+    "largestContentfulPaint": 1237.8121999999998,
+    "speedIndex": 2426.4144825642998,
+    "performance": 60,
+    "status": "ok",
+    "error": null,
+    "classification": {
+      "firstContentfulPaint": "Bueno",
+      "largestContentfulPaint": "Bueno",
+      "speedIndex": "Bueno",
+      "performance": "Por mejorar"
+    }
+  }
+]

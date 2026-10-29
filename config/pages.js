@@ -1,21 +1,26 @@
-// Sustituir las URL pendientes por tres páginas institucionales diferentes.
 module.exports = [
   {
-    id: 'pagina-integrante-1',
-    owner: 'Integrante 1',
-    name: 'Página institucional 1',
-    url: ''
+    id: 'voluntariado',
+    owner: 'Cristian Camilo Salazar Arenas',
+    name: 'Voluntariado UAM',
+    description:
+      'Programa que promueve la participación de estudiantes y miembros de la comunidad universitaria en actividades sociales, ambientales y comunitarias para contribuir al bienestar de la sociedad.',
+    url: 'https://www.autonoma.edu.co/voluntariado'
   },
   {
-    id: 'pagina-integrante-2',
-    owner: 'Integrante 2',
-    name: 'Página institucional 2',
-    url: ''
+    id: 'financiacion',
+    owner: 'Cristian Camilo Salazar Arenas',
+    name: 'Financiación de estudios',
+    description:
+      'Información sobre alternativas de financiación para pagar la matrícula universitaria, incluyendo créditos propios de la UAM, ICETEX y entidades financieras aliadas.',
+    url: 'https://www.autonoma.edu.co/financiacion'
   },
   {
-    id: 'pagina-integrante-3',
-    owner: 'Integrante 3',
-    name: 'Página institucional 3',
-    url: ''
+    id: 'internacionalizacion',
+    owner: 'Isabela Quintero Murillo',
+    name: 'Internacionalización',
+    description:
+      'Programa que ofrece oportunidades de movilidad académica local, nacional e internacional, intercambios universitarios, estancias de investigación y experiencias en otros países.',
+    url: 'https://www.autonoma.edu.co/internacionalizacion'
   }
 ];
