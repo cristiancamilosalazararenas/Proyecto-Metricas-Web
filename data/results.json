@@ -643,5 +643,78 @@
       "speedIndex": "Bueno",
       "performance": "Bueno"
     }
+  },
+  {
+    "url": "https://www.autonoma.edu.co/internacionalizacion",
+    "screenEmulation": "Moto G4 (412x823)",
+    "timestamp": "2026-10-30T04:56:18.862Z",
+    "pageId": "internacionalizacion",
+    "pageName": "Internacionalización",
+    "owner": "Isabela Quintero Murillo",
+    "deviceId": "mobile",
+    "job": "prueba-cola-mobile",
+    "firstContentfulPaint": 1143.2160000000001,
+    "largestContentfulPaint": 1171.2160000000001,
+    "speedIndex": 2670.2896239122765,
+    "performance": 96,
+    "status": "ok",
+    "error": null,
+    "opportunities": [
+      {
+        "id": "unused-javascript",
+        "title": "Reduce el contenido JavaScript que no se use",
+        "savingsMs": 1180
+      },
+      {
+        "id": "uses-text-compression",
+        "title": "Habilita la compresión de texto",
+        "savingsMs": 600
+      }
+    ],
+    "classification": {
+      "firstContentfulPaint": "Bueno",
+      "largestContentfulPaint": "Bueno",
+      "speedIndex": "Bueno",
+      "performance": "Bueno"
+    }
+  },
+  {
+    "url": "https://www.autonoma.edu.co/internacionalizacion",
+    "screenEmulation": "Desktop (1350x940)",
+    "timestamp": "2026-10-30T04:56:46.487Z",
+    "pageId": "internacionalizacion",
+    "pageName": "Internacionalización",
+    "owner": "Isabela Quintero Murillo",
+    "deviceId": "desktop",
+    "job": "prueba-cola-desktop",
+    "firstContentfulPaint": 943.264,
+    "largestContentfulPaint": 973.264,
+    "speedIndex": 2450.557111721188,
+    "performance": 85,
+    "status": "ok",
+    "error": null,
+    "opportunities": [
+      {
+        "id": "unused-javascript",
+        "title": "Reduce el contenido JavaScript que no se use",
+        "savingsMs": 1650
+      },
+      {
+        "id": "uses-text-compression",
+        "title": "Habilita la compresión de texto",
+        "savingsMs": 600
+      },
+      {
+        "id": "server-response-time",
+        "title": "El tiempo de respuesta inicial del servidor fue breve",
+        "savingsMs": 23
+      }
+    ],
+    "classification": {
+      "firstContentfulPaint": "Bueno",
+      "largestContentfulPaint": "Bueno",
+      "speedIndex": "Bueno",
+      "performance": "Por mejorar"
+    }
   }
 ]

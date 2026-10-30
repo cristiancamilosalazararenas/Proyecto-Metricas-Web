@@ -14,5 +14,37 @@
     "errors": 0,
     "exitCode": 0,
     "status": "ok"
+  },
+  {
+    "job": "prueba-cola-mobile",
+    "trigger": "scheduler",
+    "startedAt": "2026-10-30T04:56:00.293Z",
+    "finishedAt": "2026-10-30T04:56:18.988Z",
+    "pages": [
+      "internacionalizacion"
+    ],
+    "devices": [
+      "mobile"
+    ],
+    "recordsAdded": 1,
+    "errors": 0,
+    "exitCode": 0,
+    "status": "ok"
+  },
+  {
+    "job": "prueba-cola-desktop",
+    "trigger": "scheduler",
+    "startedAt": "2026-10-30T04:56:19.299Z",
+    "finishedAt": "2026-10-30T04:56:46.604Z",
+    "pages": [
+      "internacionalizacion"
+    ],
+    "devices": [
+      "desktop"
+    ],
+    "recordsAdded": 1,
+    "errors": 0,
+    "exitCode": 0,
+    "status": "ok"
   }
 ]
