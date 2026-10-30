@@ -8,7 +8,7 @@
     "cy:run": "cypress run",
     "audit": "node scripts/run-audit.js",
     "scheduler": "node scripts/scheduler.js",
-    "report": "http-server report -p 4173 -c-1",
+    "report": "http-server . -p 4173 -c-1 -o /report/",
     "validate:config": "node scripts/validate-config.js"
   },
   "devDependencies": {
