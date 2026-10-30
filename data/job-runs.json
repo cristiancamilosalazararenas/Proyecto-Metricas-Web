@@ -118,5 +118,21 @@
     "errors": 0,
     "exitCode": 0,
     "status": "ok"
+  },
+  {
+    "job": "mobile-diario-20",
+    "trigger": "manual",
+    "startedAt": "2026-10-30T07:00:55.441Z",
+    "finishedAt": "2026-10-30T07:01:13.128Z",
+    "pages": [
+      "internacionalizacion"
+    ],
+    "devices": [
+      "mobile"
+    ],
+    "recordsAdded": 1,
+    "errors": 0,
+    "exitCode": 0,
+    "status": "ok"
   }
 ]
