@@ -41,6 +41,10 @@ const environment = [];
 if (jobId) environment.push(`job=${jobId}`);
 if (pageId) environment.push(`page=${pageId}`);
 if (environment.length > 0) cypressArgs.push('--env', environment.join(','));
+// Lighthouse no funciona en Electron (el navegador por defecto de Cypress), así
+// que se usa Chrome salvo que se indique otro navegador.
+const hasBrowser = inputArgs.some((argument) => ['--browser', '-b'].includes(argument) || argument.startsWith('--browser='));
+if (!hasBrowser) cypressArgs.push('--browser', 'chrome');
 cypressArgs.push(...inputArgs);
 
 const startedAt = new Date().toISOString();

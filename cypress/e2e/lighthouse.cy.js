@@ -60,6 +60,17 @@ describe('Métricas Lighthouse de páginas institucionales', () => {
           job: requestedJobId || 'manual'
         });
 
+        // Sin Chrome/Chromium, cypress-audit no ejecuta Lighthouse y la prueba
+        // pasaría sin guardar métricas. Se falla a propósito para que quede
+        // registrado como error en data/results.json.
+        cy.then(() => {
+          if (Cypress.browser.family !== 'chromium' || Cypress.browser.name === 'electron') {
+            throw new Error(
+              `Lighthouse requiere Chrome o Chromium; se ejecutó en ${Cypress.browser.displayName}. Use --browser chrome.`
+            );
+          }
+        });
+
         cy.viewport(device.width, device.height);
         cy.visit(page.url);
         // Performance: 0 evita que el test falle por un umbral de aprobación.
