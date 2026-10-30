@@ -1,0 +1,22 @@
+> proyecto-metricas-web@0.1.0 scheduler
+> node scripts/scheduler.js
+[scheduler] prueba-cola-mobile: 56 23 * * * (America/Bogota) desde 2026-10-29, once
+[scheduler] prueba-cola-desktop: 56 23 * * * (America/Bogota) desde 2026-10-29, once
+[scheduler] mobile-diario-20: 0 20 * * * (America/Bogota) desde 2026-10-29, daily
+[scheduler] desktop-diario-20: 0 20 * * * (America/Bogota) desde 2026-10-29, daily
+[scheduler] mobile-diario-22: 0 22 * * * (America/Bogota) desde 2026-10-29, daily
+[scheduler] desktop-diario-22: 0 22 * * * (America/Bogota) desde 2026-10-29, daily
+[scheduler 29/10/2026, 11:55:02 p. m.] Scheduler activo. Mantenga esta terminal abierta y el equipo sin suspender.
+[scheduler 29/10/2026, 11:56:00 p. m.] Ejecutando prueba-cola-mobile (mobile; internacionalizacion)
+[scheduler] prueba-cola-desktop en cola; se ejecutará al terminar el job actual.
+[audit] prueba-cola-mobile: 1 mediciones nuevas, 0 con error.
+[audit] Spreadsheet actualizado: /Users/isabelaquintero/Metricas-Web-UAM/Proyecto-Metricas-Web/spreadsheet/metricas-web.xlsx
+[scheduler 29/10/2026, 11:56:19 p. m.] prueba-cola-mobile terminó con código 0
+[scheduler 29/10/2026, 11:56:19 p. m.] Ejecutando prueba-cola-desktop (desktop; internacionalizacion)
+[audit] prueba-cola-desktop: 1 mediciones nuevas, 0 con error.
+[audit] Spreadsheet actualizado: /Users/isabelaquintero/Metricas-Web-UAM/Proyecto-Metricas-Web/spreadsheet/metricas-web.xlsx
+[scheduler 29/10/2026, 11:56:46 p. m.] prueba-cola-desktop terminó con código 0
+Actualizada 1 ruta desde el 'indice
+schedule restaurado
+
+[exited with code 0]
