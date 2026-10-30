@@ -25,7 +25,11 @@ function runContextFields() {
 // para las recomendaciones del informe.
 function topOpportunities(lhr, limit = 3) {
   return Object.values(lhr.audits || {})
-    .filter((audit) => audit.details?.type === 'opportunity' && audit.details.overallSavingsMs > 0)
+    .filter((audit) =>
+      audit.details?.type === 'opportunity' &&
+      audit.details.overallSavingsMs > 0 &&
+      audit.score != null && audit.score < 0.9
+    )
     .sort((a, b) => b.details.overallSavingsMs - a.details.overallSavingsMs)
     .slice(0, limit)
     .map((audit) => ({

@@ -9,29 +9,88 @@
   <body>
     <main class="container">
       <header>
-        <p class="eyebrow">Proyecto Cypress + Lighthouse</p>
+        <p class="eyebrow">Proyecto Cypress + Lighthouse · UAM</p>
         <h1>Informe de métricas web</h1>
         <p id="updated">Cargando resultados…</p>
       </header>
-      <section id="summary" class="cards"></section>
+
+      <section class="filters" aria-label="Filtros">
+        <label>Página <select id="filter-page"><option value="">Todas</option></select></label>
+        <label>Dispositivo <select id="filter-device"><option value="">Todos</option></select></label>
+        <label>Job <select id="filter-job"><option value="">Todos</option></select></label>
+      </section>
+
+      <section id="summary" class="cards" aria-label="Resumen"></section>
+
+      <section>
+        <h2>Estado actual por página y dispositivo</h2>
+        <p class="hint">Última medición de cada combinación y promedio de todas sus mediciones correctas.</p>
+        <div class="table-wrap"><table class="compact">
+          <thead><tr><th>Página</th><th>Responsable</th><th>Dispositivo</th><th>Última medición</th><th>FCP</th><th>LCP</th><th>Speed Index</th><th>Performance</th><th>Promedio</th><th>Mediciones</th></tr></thead>
+          <tbody id="current"></tbody>
+        </table></div>
+      </section>
+
+      <section class="two-columns">
+        <div>
+          <h2>Mejor y peor rendimiento</h2>
+          <div id="best-worst" class="panel"></div>
+        </div>
+        <div>
+          <h2>Móvil vs escritorio</h2>
+          <div id="devices" class="panel"></div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Comparación con la ejecución anterior</h2>
+        <div id="comparisons" class="panel"></div>
+      </section>
+
+      <section>
+        <h2>Recomendaciones de mejora</h2>
+        <p class="hint">Basadas en las oportunidades con mayor ahorro estimado que reportó Lighthouse en la última medición de cada página.</p>
+        <div id="recommendations" class="recommendations"></div>
+      </section>
+
+      <section>
+        <h2>Ejecuciones de jobs</h2>
+        <div class="table-wrap"><table class="compact">
+          <thead><tr><th>Job</th><th>Origen</th><th>Inicio</th><th>Duración</th><th>Páginas</th><th>Dispositivos</th><th>Mediciones nuevas</th><th>Estado</th></tr></thead>
+          <tbody id="job-runs"></tbody>
+        </table></div>
+      </section>
+
+      <section>
+        <h2>Errores registrados</h2>
+        <div id="errors" class="panel"></div>
+      </section>
+
       <section>
         <h2>Historial de ejecuciones</h2>
         <div class="table-wrap">
           <table>
             <thead>
-              <tr>
-                <th>URL</th><th>Dispositivo</th><th>Fecha</th><th>FCP</th><th>LCP</th><th>Speed Index</th><th>Performance</th><th>Estado</th>
-              </tr>
+              <tr><th>Fecha</th><th>Página</th><th>Dispositivo</th><th>Job</th><th>FCP</th><th>LCP</th><th>Speed Index</th><th>Performance</th><th>Estado</th></tr>
             </thead>
             <tbody id="results"></tbody>
           </table>
         </div>
       </section>
+
       <section>
-        <h2>Comparación de ejecuciones</h2>
-        <div id="comparisons" class="comparison-list"></div>
+        <h2>Umbrales de clasificación</h2>
+        <p class="hint">Se leen de <code>config/thresholds.js</code>, el único lugar donde se configuran.</p>
+        <div class="table-wrap"><table class="compact">
+          <thead><tr><th>Métrica</th><th>✔ Bueno</th><th>▲ Por mejorar</th><th>✖ Deficiente</th></tr></thead>
+          <tbody id="thresholds"></tbody>
+        </table></div>
       </section>
     </main>
+
+    <!-- config/thresholds.js es CommonJS; este objeto permite leerlo en el navegador. -->
+    <script>window.module = { exports: {} };</script>
+    <script src="../config/thresholds.js"></script>
     <script src="app.js"></script>
   </body>
 </html>
