@@ -212,6 +212,8 @@ Están en [`evidencias/`](evidencias/):
 | `06-log-scheduler-cron-cola.txt` | Prueba del cron real: dos jobs programados a las 23:56 (America/Bogota) se dispararon solos y se ejecutaron en cola. |
 | `07-log-ejecucion-entrega-4-jobs.txt` | Ejecución de los 4 jobs del 30/10/2026 a las 2:15 a. m. con `--run-now all`: 12 de 12 pruebas correctas, 12 mediciones nuevas y spreadsheet actualizado tras cada job. |
 | `08-excel-numbers-resumen.png` | Captura del spreadsheet abierto en Numbers después de esa ejecución: hoja Resumen con la última medición de cada página y dispositivo, sus colores y la leyenda. |
+| `09-excel-numbers-ejecuciones-jobs.png` | Hoja Ejecuciones de jobs en Numbers: cada job registrado con origen (Scheduler o Manual), horas, mediciones nuevas y estado; incluye la prueba de cola de las 23:56 y los 4 jobs del 30/10. |
+| `10-excel-numbers-historial.png` | Hoja Historial en Numbers con las 54 mediciones, sus clasificaciones por color y el job que generó cada una. |
 
 Las imágenes 03 y 04 son una vista generada a partir del archivo `.xlsx` (contenido y colores de sus celdas).
 
