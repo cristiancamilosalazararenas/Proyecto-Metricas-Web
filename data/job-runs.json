@@ -134,5 +134,77 @@
     "errors": 0,
     "exitCode": 0,
     "status": "ok"
+  },
+  {
+    "job": "mobile-diario-20",
+    "trigger": "scheduler",
+    "startedAt": "2026-10-30T07:14:58.870Z",
+    "finishedAt": "2026-10-30T07:15:35.006Z",
+    "pages": [
+      "voluntariado",
+      "financiacion",
+      "internacionalizacion"
+    ],
+    "devices": [
+      "mobile"
+    ],
+    "recordsAdded": 3,
+    "errors": 0,
+    "exitCode": 0,
+    "status": "ok"
+  },
+  {
+    "job": "desktop-diario-20",
+    "trigger": "scheduler",
+    "startedAt": "2026-10-30T07:15:35.330Z",
+    "finishedAt": "2026-10-30T07:16:11.381Z",
+    "pages": [
+      "voluntariado",
+      "financiacion",
+      "internacionalizacion"
+    ],
+    "devices": [
+      "desktop"
+    ],
+    "recordsAdded": 3,
+    "errors": 0,
+    "exitCode": 0,
+    "status": "ok"
+  },
+  {
+    "job": "mobile-diario-22",
+    "trigger": "scheduler",
+    "startedAt": "2026-10-30T07:16:11.703Z",
+    "finishedAt": "2026-10-30T07:16:46.616Z",
+    "pages": [
+      "voluntariado",
+      "financiacion",
+      "internacionalizacion"
+    ],
+    "devices": [
+      "mobile"
+    ],
+    "recordsAdded": 3,
+    "errors": 0,
+    "exitCode": 0,
+    "status": "ok"
+  },
+  {
+    "job": "desktop-diario-22",
+    "trigger": "scheduler",
+    "startedAt": "2026-10-30T07:16:46.938Z",
+    "finishedAt": "2026-10-30T07:17:21.913Z",
+    "pages": [
+      "voluntariado",
+      "financiacion",
+      "internacionalizacion"
+    ],
+    "devices": [
+      "desktop"
+    ],
+    "recordsAdded": 3,
+    "errors": 0,
+    "exitCode": 0,
+    "status": "ok"
   }
 ]

@@ -210,45 +210,48 @@ Están en [`evidencias/`](evidencias/):
 | `04-spreadsheet-historial.png` | Hoja Historial del `.xlsx`. |
 | `05-log-ejecucion-4-jobs.txt` | Salida del scheduler ejecutando los 4 jobs en cola: 12 de 12 pruebas correctas y spreadsheet actualizado tras cada job. |
 | `06-log-scheduler-cron-cola.txt` | Prueba del cron real: dos jobs programados a las 23:56 (America/Bogota) se dispararon solos y se ejecutaron en cola. |
+| `07-log-ejecucion-entrega-4-jobs.txt` | Ejecución de los 4 jobs del 30/10/2026 a las 2:15 a. m. con `--run-now all`: 12 de 12 pruebas correctas, 12 mediciones nuevas y spreadsheet actualizado tras cada job. |
 
-Las imágenes del spreadsheet son una vista generada a partir del archivo `.xlsx` (contenido y colores de sus celdas). Se recomienda añadir también una captura del archivo abierto en Excel después de un job de las 20:00 o 22:00.
+Las imágenes 03 y 04 son una vista generada a partir del archivo `.xlsx` (contenido y colores de sus celdas).
+
+**Cómo se verificó la programación.** Los jobs quedaron listos después de las 22:00 del 29/10 y la entrega fue la mañana del 30/10, antes de su primera hora programada, así que la programación se comprobó en dos partes. La evidencia 06 muestra que node-cron dispara los jobs solo, a la hora configurada y en cola. La evidencia 07 muestra que los 4 jobs, ejecutados por el mismo scheduler, miden las tres páginas y actualizan el JSON, el registro de jobs y el spreadsheet. Las horas de las mediciones son las reales de cada ejecución; no se modificaron. A partir de esa noche, con `npm run scheduler` activo, los jobs corren a las 20:00 y 22:00 sin intervención.
 
 ## Análisis de resultados
 
-Datos de `data/results.json` al 30/10/2026: 41 mediciones correctas y 0 errores.
+Datos de `data/results.json` al 30/10/2026: 54 mediciones correctas y 0 errores.
 
 | Página | Dispositivo | Mediciones | Performance promedio (mín.–máx.) | FCP prom. | LCP prom. | Speed Index prom. |
 |---|---|---|---|---|---|---|
-| Internacionalización | Móvil | 10 | 87,9 (57–100) | 1,11 s | 1,20 s | 2,87 s |
-| Internacionalización | Escritorio | 8 | 82,3 (60–95) | 1,00 s | 1,05 s | 2,19 s |
-| Voluntariado | Móvil | 8 | 78,9 (69–98) | 1,46 s | 1,54 s | 1,94 s |
-| Voluntariado | Escritorio | 4 | 77,0 (59–95) | 1,20 s | 1,49 s | 1,23 s |
-| Financiación | Móvil | 7 | 74,4 (59–100) | 1,29 s | 1,39 s | 3,66 s |
-| Financiación | Escritorio | 4 | 71,5 (56–89) | 1,04 s | 1,09 s | 4,30 s |
+| Internacionalización | Móvil | 13 | 90,0 (57–100) | 1,07 s | 1,15 s | 2,68 s |
+| Internacionalización | Escritorio | 10 | 84,4 (60–95) | 0,99 s | 1,04 s | 2,12 s |
+| Voluntariado | Móvil | 10 | 82,9 (69–99) | 1,39 s | 1,46 s | 1,79 s |
+| Voluntariado | Escritorio | 6 | 82,3 (59–95) | 1,17 s | 1,37 s | 1,19 s |
+| Financiación | Móvil | 9 | 79,4 (59–100) | 1,22 s | 1,30 s | 3,45 s |
+| Financiación | Escritorio | 6 | 76,2 (56–89) | 1,01 s | 1,07 s | 3,77 s |
 
 **Mejor y peor rendimiento.**
 
-- **Mejor:** Internacionalización en móvil, con 87,9 de promedio y 100/100 en las últimas mediciones.
-- **Peor:** Financiación en escritorio, con 71,5 de promedio. Su Speed Index quedó en "Por mejorar" en 8 de sus 11 mediciones (3,5–4,9 s); en Internacionalización eso pasó solo 2 veces y en Voluntariado ninguna.
+- **Mejor:** Internacionalización en móvil, con 90,0 de promedio y entre 94 y 99 en sus tres últimas mediciones.
+- **Peor:** Financiación en escritorio, con 76,2 de promedio y entre 84 y 89 en sus tres últimas mediciones. Su Speed Index quedó en "Por mejorar" en 8 de sus 15 mediciones (3,5–4,9 s); en Internacionalización eso pasó solo 2 veces en 23 mediciones y en Voluntariado ninguna.
 
 **Diferencias entre dispositivos.**
 
-- En las tres páginas, el escritorio obtiene un Performance promedio entre 2 y 6 puntos menor que el móvil, aunque su FCP y su LCP son menores (más rápidos).
-- La explicación más probable es el Speed Index y el trabajo de JavaScript: en escritorio Lighthouse carga más contenido visible y scripts. En Financiación, el Speed Index de escritorio (4,30 s) es peor que el de móvil (3,66 s).
+- En las tres páginas, el escritorio obtiene un Performance promedio menor que el móvil (0,6 puntos en Voluntariado, 3,2 en Financiación y 5,6 en Internacionalización), aunque su FCP y su LCP son menores (más rápidos).
+- La explicación más probable es el Speed Index y el trabajo de JavaScript: en escritorio Lighthouse carga más contenido visible y scripts. En Financiación, el Speed Index de escritorio (3,77 s) es peor que el de móvil (3,45 s).
 
 **Variabilidad.**
 
-- Las mediciones de la tarde del 29/10 (alrededor de las 18:00, en el equipo de Cristian) tienen un promedio de 65,8. Las de la noche (alrededor de las 23:00, en el equipo de Isabela) tienen un promedio de 93,7.
-- La diferencia combina dos factores: la carga del servidor y de la red a distintas horas, y el hardware de cada equipo.
+- Las mediciones de la tarde del 29/10 (alrededor de las 18:00, en el equipo de Cristian) tienen un promedio de 65,8. Las de la noche (alrededor de las 23:00, en el equipo de Isabela) tienen un promedio de 93,7, y las de la madrugada del 30/10 (alrededor de las 2:00, mismo equipo), 94,3.
+- La diferencia combina dos factores: la carga del servidor y de la red a distintas horas, y el hardware de cada equipo. En el mismo equipo, la noche y la madrugada dan resultados casi iguales, lo que apunta a que el hardware pesa más que la hora.
 - Por eso las comparaciones deben hacerse entre ejecuciones del mismo job, el mismo equipo y la misma hora. Para eso existen los jobs fijos de las 20:00 y 22:00 y la cola secuencial del scheduler.
 
 ### Recomendaciones de mejora
 
 Según las oportunidades que reportó Lighthouse en las últimas mediciones:
 
-- **Financiación de estudios:** habilitar la compresión de texto (gzip/brotli) en el servidor, con un ahorro estimado de 3,9 a 4,8 s, y reducir el JavaScript no utilizado (ahorro de 1,8 a 4,9 s). Son la causa principal de su Speed Index alto.
-- **Internacionalización:** servir las imágenes en formatos modernos como WebP o AVIF (ahorro de 0,9 a 2,1 s), codificarlas de forma eficiente (0,9 s) y habilitar la compresión de texto (0,6 a 0,75 s).
-- **Voluntariado UAM:** reducir el JavaScript no utilizado (ahorro de 0,3 a 0,45 s), por ejemplo cargando de forma diferida los scripts que no se necesitan al inicio.
+- **Financiación de estudios:** habilitar la compresión de texto (gzip/brotli) en el servidor, con un ahorro estimado de 3,6 a 5,3 s, y reducir el JavaScript no utilizado (ahorro de 2,1 a 2,7 s). Son la causa principal de su Speed Index alto.
+- **Internacionalización:** servir las imágenes en formatos modernos como WebP o AVIF (ahorro de 0,9 a 1,2 s), codificarlas de forma eficiente (0,9 s) y habilitar la compresión de texto (0,6 s).
+- **Voluntariado UAM:** reducir el JavaScript no utilizado (ahorro de 0,45 s), por ejemplo cargando de forma diferida los scripts que no se necesitan al inicio.
 - **General (las tres páginas comparten plataforma):** activar la compresión de texto en todo el sitio, revisar los scripts de terceros que se cargan en todas las páginas y usar imágenes responsivas con `srcset`, para que el móvil no descargue imágenes de escritorio.
 
 El informe web recalcula estas recomendaciones con cada ejecución nueva.

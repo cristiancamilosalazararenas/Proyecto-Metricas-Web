@@ -1,0 +1,54 @@
+> proyecto-metricas-web@0.1.0 scheduler
+[scheduler 30/10/2026, 2:14:58 a. m.] Ejecutando mobile-diario-20 (mobile; voluntariado, financiacion, internacionalizacion)
+  Running:  lighthouse.cy.js                                                                (1 of 1)
+    ✓ Voluntariado UAM - Moto G4 (9727ms)
+    ✓ Financiación de estudios - Moto G4 (12178ms)
+    ✓ Internacionalización - Moto G4 (10017ms)
+  │ Tests:        3                                                                                │
+  │ Passing:      3                                                                                │
+  │ Failing:      0                                                                                │
+  │ ✔  lighthouse.cy.js                         00:32        3        3        -        -        - │
+    ✔  All specs passed!                        00:32        3        3        -        -        -  
+[audit] mobile-diario-20: 3 mediciones nuevas, 0 con error.
+[audit] Spreadsheet actualizado: /Users/isabelaquintero/Metricas-Web-UAM/Proyecto-Metricas-Web/spreadsheet/metricas-web.xlsx
+[scheduler 30/10/2026, 2:15:35 a. m.] mobile-diario-20 terminó con código 0
+[scheduler 30/10/2026, 2:15:35 a. m.] Ejecutando desktop-diario-20 (desktop; voluntariado, financiacion, internacionalizacion)
+  Running:  lighthouse.cy.js                                                                (1 of 1)
+    ✓ Voluntariado UAM - Desktop (10943ms)
+    ✓ Financiación de estudios - Desktop (12187ms)
+    ✓ Internacionalización - Desktop (9536ms)
+  │ Tests:        3                                                                                │
+  │ Passing:      3                                                                                │
+  │ Failing:      0                                                                                │
+  │ ✔  lighthouse.cy.js                         00:33        3        3        -        -        - │
+    ✔  All specs passed!                        00:33        3        3        -        -        -  
+[audit] desktop-diario-20: 3 mediciones nuevas, 0 con error.
+[audit] Spreadsheet actualizado: /Users/isabelaquintero/Metricas-Web-UAM/Proyecto-Metricas-Web/spreadsheet/metricas-web.xlsx
+[scheduler 30/10/2026, 2:16:11 a. m.] desktop-diario-20 terminó con código 0
+[scheduler 30/10/2026, 2:16:11 a. m.] Ejecutando mobile-diario-22 (mobile; voluntariado, financiacion, internacionalizacion)
+  Running:  lighthouse.cy.js                                                                (1 of 1)
+    ✓ Voluntariado UAM - Moto G4 (9908ms)
+    ✓ Financiación de estudios - Moto G4 (11695ms)
+    ✓ Internacionalización - Moto G4 (10100ms)
+  │ Tests:        3                                                                                │
+  │ Passing:      3                                                                                │
+  │ Failing:      0                                                                                │
+  │ ✔  lighthouse.cy.js                         00:32        3        3        -        -        - │
+    ✔  All specs passed!                        00:32        3        3        -        -        -  
+[audit] mobile-diario-22: 3 mediciones nuevas, 0 con error.
+[audit] Spreadsheet actualizado: /Users/isabelaquintero/Metricas-Web-UAM/Proyecto-Metricas-Web/spreadsheet/metricas-web.xlsx
+[scheduler 30/10/2026, 2:16:46 a. m.] mobile-diario-22 terminó con código 0
+[scheduler 30/10/2026, 2:16:46 a. m.] Ejecutando desktop-diario-22 (desktop; voluntariado, financiacion, internacionalizacion)
+  Running:  lighthouse.cy.js                                                                (1 of 1)
+    ✓ Voluntariado UAM - Desktop (9360ms)
+    ✓ Financiación de estudios - Desktop (12521ms)
+    ✓ Internacionalización - Desktop (9868ms)
+  │ Tests:        3                                                                                │
+  │ Passing:      3                                                                                │
+  │ Failing:      0                                                                                │
+  │ ✔  lighthouse.cy.js                         00:32        3        3        -        -        - │
+    ✔  All specs passed!                        00:32        3        3        -        -        -  
+[audit] desktop-diario-22: 3 mediciones nuevas, 0 con error.
+[audit] Spreadsheet actualizado: /Users/isabelaquintero/Metricas-Web-UAM/Proyecto-Metricas-Web/spreadsheet/metricas-web.xlsx
+[scheduler 30/10/2026, 2:17:21 a. m.] desktop-diario-22 terminó con código 0
+[scheduler] Ejecución inmediata terminada: 4/4 jobs correctos.
