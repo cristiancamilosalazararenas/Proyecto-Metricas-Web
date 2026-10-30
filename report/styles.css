@@ -29,6 +29,7 @@ table { border-collapse: collapse; width: 100%; min-width: 1000px; }
 table.compact { min-width: 800px; }
 th, td { text-align: left; padding: .7rem; border-bottom: 1px solid #e5e7eb; vertical-align: top; }
 th { background: #172033; color: white; }
+td.url { max-width: 230px; }
 td a { color: #2b6cb0; font-size: .8rem; overflow-wrap: anywhere; }
 .badge { display: inline-block; margin-top: .25rem; padding: .15rem .45rem; border-radius: .35rem; font-size: .75rem; background: #e5e7eb; white-space: nowrap; }
 .good { background: #c6f6d5; color: #22543d; }

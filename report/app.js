@@ -238,6 +238,7 @@ function renderResults(runs) {
     <tr>
       <td>${formatDate(run.timestamp)}</td>
       <td>${escapeHtml(pageLabel(run))}<br><small class="muted">${escapeHtml(run.owner || '')}</small></td>
+      <td class="url">${run.url ? `<a href="${escapeHtml(run.url)}" target="_blank" rel="noopener">${escapeHtml(run.url)}</a>` : '—'}</td>
       <td>${escapeHtml(deviceLabel(run))}</td>
       <td>${escapeHtml(jobLabel(run))}</td>
       <td>${metricCell(run, 'firstContentfulPaint')}</td>
@@ -246,7 +247,7 @@ function renderResults(runs) {
       <td>${metricCell(run, 'performance')}</td>
       <td>${run.status === 'ok' ? '<span class="badge good">✔ OK</span>' : `<span class="badge bad">✖ Error</span><small>${escapeHtml(run.error)}</small>`}</td>
     </tr>
-  `).join('') || '<tr><td colspan="9">No hay mediciones con estos filtros.</td></tr>';
+  `).join('') || '<tr><td colspan="10">No hay mediciones con estos filtros.</td></tr>';
 }
 
 function renderThresholds() {

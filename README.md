@@ -17,7 +17,7 @@ El grupo tiene dos integrantes: Cristian es responsable de las dos primeras URL 
 ## Requisitos
 
 - Node.js 20 o superior y npm.
-- **Google Chrome** (o Chromium). Lighthouse no se ejecuta en el navegador Electron de Cypress, por eso todos los comandos usan `--browser chrome`.
+- **Google Chrome** (o Chromium). Lighthouse no se ejecuta en Electron, el navegador por defecto de Cypress. Por eso `npm run audit`, `npm run cy:run` y el scheduler usan Chrome aunque no se indique `--browser`. Si alguien fuerza otro navegador, la prueba falla y queda registrada como error en el JSON, en lugar de pasar sin guardar métricas.
 - Git.
 
 ## Instalación
@@ -195,7 +195,7 @@ Se abre en <http://localhost:4173/report/> y lee `data/results.json` y `data/job
 - Mejor y peor rendimiento, y diferencias entre móvil y escritorio.
 - Comparación con la ejecución anterior (Performance y LCP).
 - Recomendaciones de mejora por página.
-- Ejecuciones de jobs, errores registrados e historial completo.
+- Ejecuciones de jobs, errores registrados e historial completo con URL, fecha, dispositivo, job y métricas.
 - Tabla de umbrales.
 
 ## Evidencias
