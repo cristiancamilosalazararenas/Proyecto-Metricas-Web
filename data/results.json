@@ -338,5 +338,73 @@
       "speedIndex": "Bueno",
       "performance": "Por mejorar"
     }
+  },
+  {
+    "url": "https://www.autonoma.edu.co/internacionalizacion",
+    "screenEmulation": "Moto G4 (412x823)",
+    "timestamp": "2026-10-30T04:20:52.225Z",
+    "firstContentfulPaint": 1237.552,
+    "largestContentfulPaint": 1256.7432422180175,
+    "speedIndex": 2761.648284664845,
+    "performance": 96,
+    "status": "ok",
+    "error": null,
+    "classification": {
+      "firstContentfulPaint": "Bueno",
+      "largestContentfulPaint": "Bueno",
+      "speedIndex": "Bueno",
+      "performance": "Bueno"
+    }
+  },
+  {
+    "url": "https://www.autonoma.edu.co/internacionalizacion",
+    "screenEmulation": "Desktop (1350x940)",
+    "timestamp": "2026-10-30T04:21:09.878Z",
+    "firstContentfulPaint": 942.317,
+    "largestContentfulPaint": 1017.317,
+    "speedIndex": 2067.9918739615396,
+    "performance": 87,
+    "status": "ok",
+    "error": null,
+    "classification": {
+      "firstContentfulPaint": "Bueno",
+      "largestContentfulPaint": "Bueno",
+      "speedIndex": "Bueno",
+      "performance": "Por mejorar"
+    }
+  },
+  {
+    "url": "https://www.autonoma.edu.co/internacionalizacion",
+    "screenEmulation": "Moto G4 (412x823)",
+    "timestamp": "2026-10-30T04:23:18.570Z",
+    "firstContentfulPaint": 1145.328,
+    "largestContentfulPaint": 1175.328,
+    "speedIndex": 2770.1060517695764,
+    "performance": 94,
+    "status": "ok",
+    "error": null,
+    "classification": {
+      "firstContentfulPaint": "Bueno",
+      "largestContentfulPaint": "Bueno",
+      "speedIndex": "Bueno",
+      "performance": "Bueno"
+    }
+  },
+  {
+    "url": "https://www.autonoma.edu.co/internacionalizacion",
+    "screenEmulation": "Desktop (1350x940)",
+    "timestamp": "2026-10-30T04:23:28.896Z",
+    "firstContentfulPaint": 978.2879999999999,
+    "largestContentfulPaint": 1017.2879999999999,
+    "speedIndex": 1925.1812242095039,
+    "performance": 91,
+    "status": "ok",
+    "error": null,
+    "classification": {
+      "firstContentfulPaint": "Bueno",
+      "largestContentfulPaint": "Bueno",
+      "speedIndex": "Bueno",
+      "performance": "Bueno"
+    }
   }
 ]
