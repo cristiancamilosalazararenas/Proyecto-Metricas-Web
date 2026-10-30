@@ -48,14 +48,14 @@ Toda la configuración está separada en `config/`. Para agregar una página o u
 
 Los tiempos se guardan en milisegundos en el JSON y se muestran en segundos en el informe y el spreadsheet. Los intervalos no se solapan.
 
-| Métrica | ✔ Bueno | ▲ Por mejorar | ✖ Deficiente |
+| Métrica | Bueno | Por mejorar | Deficiente |
 |---|---|---|---|
 | FCP | ≤ 1,8 s | > 1,8 s y ≤ 3 s | > 3 s |
 | LCP | ≤ 2,5 s | > 2,5 s y ≤ 4 s | > 4 s |
 | Speed Index | ≤ 3,4 s | > 3,4 s y ≤ 5,8 s | > 5,8 s |
 | Performance | 90–100 | 50–89 | 0–49 |
 
-Las etiquetas llevan símbolo (✔ ▲ ✖) además de color, para que no dependan solo del color.
+La clasificación siempre se muestra como texto (Bueno, Por mejorar, Deficiente) además del color: verde para Bueno, amarillo para Por mejorar y rojo para Deficiente.
 
 ### Agregar una página o un dispositivo
 
@@ -169,12 +169,12 @@ Cada ejecución agrega un registro y conserva el historial:
 
 ## Spreadsheet: `spreadsheet/metricas-web.xlsx`
 
-[`scripts/export-spreadsheet.js`](scripts/export-spreadsheet.js) genera el archivo con **exceljs** y se ejecuta automáticamente al terminar cada job. Se eligió `.xlsx` porque abre en Excel, LibreOffice y Google Sheets sin credenciales ni servicios externos, y queda versionado en el repositorio como evidencia.
+[`scripts/export-spreadsheet.js`](scripts/export-spreadsheet.js) genera el archivo con **exceljs** y se ejecuta automáticamente al terminar cada job. Usa letra Times New Roman, encabezados grises, bordes finos y filtros. En cada métrica hay una columna con el valor y otra con su clasificación, y las dos se colorean (verde para Bueno, amarillo para Por mejorar, rojo para Deficiente). El dispositivo y la resolución están en columnas separadas, igual que la fecha y la hora. Se eligió `.xlsx` porque abre en Excel, LibreOffice y Google Sheets sin credenciales ni servicios externos, y queda versionado en el repositorio como evidencia.
 
 | Hoja | Contenido |
 |---|---|
-| Resumen | Última medición y promedio por página y dispositivo, con clasificación por colores y etiquetas, y fecha y job de la última actualización. |
-| Historial | Todas las mediciones (tiempos en segundos, fecha en hora de Bogotá, job, responsable, estado y error). |
+| Resumen | Última medición y promedio por página y dispositivo, con la fecha y el job de la última actualización y una leyenda de colores. |
+| Historial | Todas las mediciones: fecha, hora (Bogotá), job, página, responsable, URL, dispositivo, resolución, métricas en segundos, estado y error. |
 | Móvil vs Escritorio | Promedios de Performance y LCP por dispositivo y la diferencia. |
 | Ejecuciones de jobs | Registro de cada job: origen (scheduler o manual), inicio, fin, duración, mediciones nuevas y estado. |
 | Umbrales | Rangos de clasificación tomados de `config/thresholds.js`. |

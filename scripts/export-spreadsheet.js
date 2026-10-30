@@ -11,21 +11,23 @@ const { projectRoot, resultsPath, jobRunsPath, withFileLock, readJsonArray } = r
 
 const outputPath = path.join(projectRoot, 'spreadsheet', 'metricas-web.xlsx');
 const TIMEZONE = 'America/Bogota';
+const FONT = 'Times New Roman';
 
-// Etiqueta con símbolo para no depender solo del color.
-const LABELS = {
-  Bueno: { text: '✔ Bueno', fill: 'FFC6F6D5', font: 'FF22543D' },
-  'Por mejorar': { text: '▲ Por mejorar', fill: 'FFFEEBC8', font: 'FF7B341E' },
-  Deficiente: { text: '✖ Deficiente', fill: 'FFFED7D7', font: 'FF822727' }
+// Colores por clasificación: verde (Bueno), amarillo (Por mejorar), rojo (Deficiente).
+const CLASS_COLORS = {
+  Bueno: { fill: 'FFC6EFCE', font: 'FF006100' },
+  'Por mejorar': { fill: 'FFFFEB9C', font: 'FF9C5700' },
+  Deficiente: { fill: 'FFFFC7CE', font: 'FF9C0006' }
 };
-const ERROR_STYLE = { fill: 'FFFED7D7', font: 'FF822727' };
-const HEADER_FILL = 'FF172033';
+const HEADER_FILL = 'FFD9D9D9';
+const BORDER_COLOR = 'FF808080';
+const thin = { style: 'thin', color: { argb: BORDER_COLOR } };
+const BORDER = { top: thin, left: thin, bottom: thin, right: thin };
 
-const timeMetrics = ['firstContentfulPaint', 'largestContentfulPaint', 'speedIndex'];
+const DEVICE_NAMES = { mobile: 'Móvil (Moto G4)', desktop: 'Escritorio' };
 
-function bogotaDate(iso) {
-  if (!iso) return '';
-  const parts = Object.fromEntries(
+function bogotaParts(iso) {
+  return Object.fromEntries(
     new Intl.DateTimeFormat('en-CA', {
       timeZone: TIMEZONE,
       year: 'numeric',
@@ -39,58 +41,143 @@ function bogotaDate(iso) {
       .formatToParts(new Date(iso))
       .map((part) => [part.type, part.value])
   );
-  return `${parts.year}-${parts.month}-${parts.day} ${parts.hour}:${parts.minute}:${parts.second}`;
 }
+const bogotaDay = (iso) => {
+  if (!iso) return '';
+  const p = bogotaParts(iso);
+  return `${p.day}/${p.month}/${p.year}`;
+};
+const bogotaTime = (iso) => {
+  if (!iso) return '';
+  const p = bogotaParts(iso);
+  return `${p.hour}:${p.minute}:${p.second}`;
+};
 
 const seconds = (ms) => (ms == null ? null : Math.round(ms / 10) / 100);
 const pageFor = (run) => pages.find((page) => page.id === run.pageId || page.url === run.url);
 const deviceFor = (run) =>
   Object.values(devices).find((device) => device.id === run.deviceId || device.screenEmulation === run.screenEmulation);
+const deviceName = (device) => DEVICE_NAMES[device?.id] || device?.name || '';
+const pageName = (id) => pages.find((page) => page.id === id)?.name || id;
 
-function styleHeader(sheet) {
-  const header = sheet.getRow(1);
-  header.font = { bold: true, color: { argb: 'FFFFFFFF' } };
-  header.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: HEADER_FILL } };
-  header.alignment = { vertical: 'middle', wrapText: true };
-  header.height = 30;
-  sheet.views = [{ state: 'frozen', ySplit: 1 }];
-  sheet.autoFilter = { from: { row: 1, column: 1 }, to: { row: 1, column: sheet.columnCount } };
+function resolutionFor(run) {
+  const device = deviceFor(run);
+  if (device) return `${device.width} x ${device.height}`;
+  const match = /(\d+)\s*x\s*(\d+)/i.exec(run.screenEmulation || '');
+  return match ? `${match[1]} x ${match[2]}` : '';
 }
 
-function paint(cell, style) {
-  cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: style.fill } };
-  cell.font = { bold: true, color: { argb: style.font } };
+function baseCell(cell, { bold = false, align = 'left', color } = {}) {
+  cell.font = { name: FONT, size: 11, bold, ...(color ? { color: { argb: color } } : {}) };
+  cell.border = BORDER;
+  cell.alignment = { vertical: 'middle', horizontal: align, wrapText: false };
 }
 
-function labelCell(cell, classification) {
-  const label = LABELS[classification];
-  if (!label) {
-    cell.value = '—';
-    return;
-  }
-  cell.value = label.text;
-  paint(cell, label);
+function classCell(cell, classification) {
+  const colors = CLASS_COLORS[classification];
+  if (!colors) return;
+  cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: colors.fill } };
+  cell.font = { ...cell.font, color: { argb: colors.font } };
+}
+
+// Crea una hoja con título, subtítulo y una tabla con encabezados grises.
+// `columns`: [{ header, key, width, align, format }]. Devuelve la hoja y la fila
+// donde empiezan los datos.
+function createSheet(workbook, name, title, subtitle, columns) {
+  const sheet = workbook.addWorksheet(name, {
+    views: [{ state: 'frozen', ySplit: 4, showGridLines: false }],
+    pageSetup: { orientation: 'landscape', fitToPage: true, fitToWidth: 1, fitToHeight: 0 }
+  });
+  sheet.columns = columns.map(({ key, width }) => ({ key, width }));
+
+  sheet.mergeCells(1, 1, 1, columns.length);
+  const titleCell = sheet.getCell(1, 1);
+  titleCell.value = title;
+  titleCell.font = { name: FONT, size: 14, bold: true };
+  sheet.getRow(1).height = 22;
+
+  sheet.mergeCells(2, 1, 2, columns.length);
+  const subtitleCell = sheet.getCell(2, 1);
+  subtitleCell.value = subtitle;
+  subtitleCell.font = { name: FONT, size: 11, italic: true };
+
+  const header = sheet.getRow(4);
+  columns.forEach((column, index) => {
+    const cell = header.getCell(index + 1);
+    cell.value = column.header;
+    baseCell(cell, { bold: true, align: 'center' });
+    cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: HEADER_FILL } };
+    cell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+  });
+  header.height = 32;
+  sheet.autoFilter = { from: { row: 4, column: 1 }, to: { row: 4, column: columns.length } };
+
+  const addRow = (values) => {
+    const row = sheet.addRow(values);
+    columns.forEach((column, index) => {
+      const cell = row.getCell(index + 1);
+      baseCell(cell, { align: column.align || 'left' });
+      if (column.format) cell.numFmt = column.format;
+    });
+    return row;
+  };
+
+  return { sheet, addRow };
+}
+
+// Columnas de métricas: valor y clasificación, ambas con el color correspondiente.
+const METRICS = [
+  { key: 'firstContentfulPaint', label: 'FCP (s)', time: true },
+  { key: 'largestContentfulPaint', label: 'LCP (s)', time: true },
+  { key: 'speedIndex', label: 'Speed Index (s)', time: true },
+  { key: 'performance', label: 'Performance', time: false }
+];
+
+function metricColumns() {
+  return METRICS.flatMap((metric) => [
+    { header: metric.label, key: metric.key, width: 13, align: 'center', format: metric.time ? '0.00' : '0' },
+    { header: `Clasificación ${metric.label.replace(' (s)', '')}`, key: `${metric.key}Class`, width: 15, align: 'center' }
+  ]);
+}
+
+function metricValues(run) {
+  return Object.fromEntries(
+    METRICS.flatMap((metric) => [
+      [metric.key, metric.time ? seconds(run[metric.key]) : run[metric.key]],
+      [`${metric.key}Class`, run.classification?.[metric.key] || '']
+    ])
+  );
+}
+
+function colorMetrics(row, run) {
+  METRICS.forEach((metric) => {
+    const classification = run.classification?.[metric.key];
+    classCell(row.getCell(metric.key), classification);
+    classCell(row.getCell(`${metric.key}Class`), classification);
+  });
 }
 
 function addSummarySheet(workbook, runs, lastJobRun) {
-  const sheet = workbook.addWorksheet('Resumen');
-  sheet.columns = [
-    { header: 'Página', key: 'page', width: 26 },
-    { header: 'Responsable', key: 'owner', width: 30 },
-    { header: 'Dispositivo', key: 'device', width: 22 },
-    { header: 'Última medición (Bogotá)', key: 'date', width: 22 },
-    { header: 'Job', key: 'job', width: 20 },
-    { header: 'FCP (s)', key: 'fcp', width: 10 },
-    { header: 'Clasif. FCP', key: 'fcpLabel', width: 15 },
-    { header: 'LCP (s)', key: 'lcp', width: 10 },
-    { header: 'Clasif. LCP', key: 'lcpLabel', width: 15 },
-    { header: 'Speed Index (s)', key: 'si', width: 14 },
-    { header: 'Clasif. SI', key: 'siLabel', width: 15 },
-    { header: 'Performance', key: 'perf', width: 13 },
-    { header: 'Clasif. Performance', key: 'perfLabel', width: 18 },
-    { header: 'Promedio performance', key: 'avg', width: 15 },
-    { header: 'Mediciones', key: 'count', width: 12 }
-  ];
+  const updatedAt = new Date().toISOString();
+  const source = lastJobRun ? `job ${lastJobRun.job}` : 'actualización manual';
+  const { sheet, addRow } = createSheet(
+    workbook,
+    'Resumen',
+    'Proyecto de Métricas Web — Universidad Autónoma de Manizales',
+    `Última medición por página y dispositivo. Actualizado el ${bogotaDay(updatedAt)} a las ${bogotaTime(updatedAt)} (hora de Bogotá) por ${source}.`,
+    [
+      { header: 'Página', key: 'page', width: 26 },
+      { header: 'Responsable', key: 'owner', width: 30 },
+      { header: 'Dispositivo', key: 'device', width: 17 },
+      { header: 'Resolución', key: 'resolution', width: 12, align: 'center' },
+      { header: 'Fecha', key: 'date', width: 12, align: 'center' },
+      { header: 'Hora', key: 'time', width: 10, align: 'center' },
+      { header: 'Job', key: 'job', width: 19 },
+      ...metricColumns(),
+      { header: 'Performance promedio', key: 'avg', width: 13, align: 'center', format: '0' },
+      { header: 'Mediciones', key: 'count', width: 11, align: 'center' }
+    ]
+  );
 
   pages.forEach((page) => {
     Object.values(devices).forEach((device) => {
@@ -100,99 +187,92 @@ function addSummarySheet(workbook, runs, lastJobRun) {
       if (group.length === 0) return;
       const latest = group.at(-1);
       const average = Math.round(group.reduce((sum, run) => sum + run.performance, 0) / group.length);
-      const row = sheet.addRow({
+      const row = addRow({
         page: page.name,
         owner: page.owner,
-        device: device.screenEmulation,
-        date: bogotaDate(latest.timestamp),
-        job: latest.job || 'sin registro',
-        fcp: seconds(latest.firstContentfulPaint),
-        lcp: seconds(latest.largestContentfulPaint),
-        si: seconds(latest.speedIndex),
-        perf: latest.performance,
+        device: deviceName(device),
+        resolution: resolutionFor(latest),
+        date: bogotaDay(latest.timestamp),
+        time: bogotaTime(latest.timestamp),
+        job: latest.job || 'Sin registro',
+        ...metricValues(latest),
         avg: average,
         count: group.length
       });
-      labelCell(row.getCell('fcpLabel'), latest.classification?.firstContentfulPaint);
-      labelCell(row.getCell('lcpLabel'), latest.classification?.largestContentfulPaint);
-      labelCell(row.getCell('siLabel'), latest.classification?.speedIndex);
-      labelCell(row.getCell('perfLabel'), latest.classification?.performance);
+      colorMetrics(row, latest);
+      const avgClass =
+        average >= thresholds.performance.goodMin ? 'Bueno' : average >= thresholds.performance.needsImprovementMin ? 'Por mejorar' : 'Deficiente';
+      classCell(row.getCell('avg'), avgClass);
     });
   });
-  styleHeader(sheet);
-
-  sheet.addRow([]);
-  const updated = sheet.addRow([
-    'Última actualización del spreadsheet',
-    bogotaDate(new Date().toISOString()),
-    lastJobRun ? `Job: ${lastJobRun.job} (${lastJobRun.status})` : 'Actualización manual'
-  ]);
-  updated.font = { italic: true };
+  addLegend(sheet);
 }
 
 function addHistorySheet(workbook, runs) {
-  const sheet = workbook.addWorksheet('Historial');
-  sheet.columns = [
-    { header: '#', key: 'n', width: 6 },
-    { header: 'Fecha (Bogotá)', key: 'date', width: 20 },
-    { header: 'Timestamp ISO', key: 'iso', width: 26 },
-    { header: 'Job', key: 'job', width: 20 },
-    { header: 'Página', key: 'page', width: 24 },
-    { header: 'Responsable', key: 'owner', width: 28 },
-    { header: 'URL', key: 'url', width: 46 },
-    { header: 'Dispositivo', key: 'device', width: 20 },
-    { header: 'FCP (s)', key: 'fcp', width: 10 },
-    { header: 'Clasif. FCP', key: 'fcpLabel', width: 15 },
-    { header: 'LCP (s)', key: 'lcp', width: 10 },
-    { header: 'Clasif. LCP', key: 'lcpLabel', width: 15 },
-    { header: 'Speed Index (s)', key: 'si', width: 14 },
-    { header: 'Clasif. SI', key: 'siLabel', width: 15 },
-    { header: 'Performance', key: 'perf', width: 13 },
-    { header: 'Clasif. Performance', key: 'perfLabel', width: 18 },
-    { header: 'Estado', key: 'status', width: 12 },
-    { header: 'Error', key: 'error', width: 40 }
-  ];
+  const { addRow } = createSheet(
+    workbook,
+    'Historial',
+    'Historial de mediciones',
+    'Todas las ejecuciones registradas en data/results.json. Tiempos en segundos; fecha y hora de Bogotá.',
+    [
+      { header: 'N.º', key: 'n', width: 6, align: 'center' },
+      { header: 'Fecha', key: 'date', width: 12, align: 'center' },
+      { header: 'Hora', key: 'time', width: 10, align: 'center' },
+      { header: 'Job', key: 'job', width: 19 },
+      { header: 'Página', key: 'page', width: 26 },
+      { header: 'Responsable', key: 'owner', width: 30 },
+      { header: 'URL', key: 'url', width: 46 },
+      { header: 'Dispositivo', key: 'device', width: 17 },
+      { header: 'Resolución', key: 'resolution', width: 12, align: 'center' },
+      ...metricColumns(),
+      { header: 'Estado', key: 'status', width: 11, align: 'center' },
+      { header: 'Error', key: 'error', width: 40 }
+    ]
+  );
 
   runs.forEach((run, index) => {
-    const row = sheet.addRow({
+    const row = addRow({
       n: index + 1,
-      date: bogotaDate(run.timestamp),
-      iso: run.timestamp,
-      job: run.job || 'sin registro',
-      page: pageFor(run)?.name || run.pageId || '—',
-      owner: pageFor(run)?.owner || run.owner || '—',
+      date: bogotaDay(run.timestamp),
+      time: bogotaTime(run.timestamp),
+      job: run.job || 'Sin registro',
+      page: pageFor(run)?.name || run.pageId || '',
+      owner: pageFor(run)?.owner || run.owner || '',
       url: run.url,
-      device: run.screenEmulation,
-      fcp: seconds(run.firstContentfulPaint),
-      lcp: seconds(run.largestContentfulPaint),
-      si: seconds(run.speedIndex),
-      perf: run.performance,
-      status: run.status === 'ok' ? '✔ OK' : '✖ Error',
+      device: deviceName(deviceFor(run)) || run.screenEmulation,
+      resolution: resolutionFor(run),
+      ...metricValues(run),
+      status: run.status === 'ok' ? 'Correcta' : 'Fallida',
       error: run.error || ''
     });
-    labelCell(row.getCell('fcpLabel'), run.classification?.firstContentfulPaint);
-    labelCell(row.getCell('lcpLabel'), run.classification?.largestContentfulPaint);
-    labelCell(row.getCell('siLabel'), run.classification?.speedIndex);
-    labelCell(row.getCell('perfLabel'), run.classification?.performance);
-    if (run.status !== 'ok') paint(row.getCell('status'), ERROR_STYLE);
+    colorMetrics(row, run);
+    if (run.status !== 'ok') classCell(row.getCell('status'), 'Deficiente');
   });
-  styleHeader(sheet);
 }
 
 function addDeviceComparisonSheet(workbook, runs) {
-  const sheet = workbook.addWorksheet('Móvil vs Escritorio');
-  sheet.columns = [
-    { header: 'Página', key: 'page', width: 26 },
-    { header: 'Responsable', key: 'owner', width: 30 },
-    { header: 'Perf. promedio móvil', key: 'mobile', width: 18 },
-    { header: 'Perf. promedio escritorio', key: 'desktop', width: 22 },
-    { header: 'Diferencia (escritorio − móvil)', key: 'diff', width: 26 },
-    { header: 'LCP promedio móvil (s)', key: 'lcpMobile', width: 20 },
-    { header: 'LCP promedio escritorio (s)', key: 'lcpDesktop', width: 24 }
-  ];
+  const { addRow } = createSheet(
+    workbook,
+    'Móvil vs Escritorio',
+    'Comparación entre dispositivos',
+    'Promedios de todas las mediciones correctas de cada página.',
+    [
+      { header: 'Página', key: 'page', width: 26 },
+      { header: 'Responsable', key: 'owner', width: 30 },
+      { header: 'Performance promedio móvil', key: 'mobile', width: 16, align: 'center', format: '0' },
+      { header: 'Performance promedio escritorio', key: 'desktop', width: 16, align: 'center', format: '0' },
+      { header: 'Diferencia (escritorio - móvil)', key: 'diff', width: 16, align: 'center', format: '+0;-0;0' },
+      { header: 'LCP promedio móvil (s)', key: 'lcpMobile', width: 15, align: 'center', format: '0.00' },
+      { header: 'LCP promedio escritorio (s)', key: 'lcpDesktop', width: 15, align: 'center', format: '0.00' }
+    ]
+  );
 
   const average = (list, field) =>
     list.length ? list.reduce((sum, run) => sum + run[field], 0) / list.length : null;
+  const perfClass = (value) =>
+    value == null ? null : value >= thresholds.performance.goodMin ? 'Bueno' : value >= thresholds.performance.needsImprovementMin ? 'Por mejorar' : 'Deficiente';
+  const lcpClass = (ms) =>
+    ms == null ? null : ms <= thresholds.largestContentfulPaint.goodMax ? 'Bueno' : ms <= thresholds.largestContentfulPaint.needsImprovementMax ? 'Por mejorar' : 'Deficiente';
 
   pages.forEach((page) => {
     const ok = runs.filter((run) => run.status === 'ok' && pageFor(run)?.id === page.id);
@@ -200,91 +280,108 @@ function addDeviceComparisonSheet(workbook, runs) {
     const desktop = ok.filter((run) => deviceFor(run)?.id === 'desktop');
     const mobilePerf = average(mobile, 'performance');
     const desktopPerf = average(desktop, 'performance');
-    sheet.addRow({
+    const mobileLcp = average(mobile, 'largestContentfulPaint');
+    const desktopLcp = average(desktop, 'largestContentfulPaint');
+    const row = addRow({
       page: page.name,
       owner: page.owner,
       mobile: mobilePerf == null ? null : Math.round(mobilePerf),
       desktop: desktopPerf == null ? null : Math.round(desktopPerf),
       diff: mobilePerf == null || desktopPerf == null ? null : Math.round(desktopPerf - mobilePerf),
-      lcpMobile: seconds(average(mobile, 'largestContentfulPaint')),
-      lcpDesktop: seconds(average(desktop, 'largestContentfulPaint'))
+      lcpMobile: seconds(mobileLcp),
+      lcpDesktop: seconds(desktopLcp)
     });
+    classCell(row.getCell('mobile'), perfClass(mobilePerf));
+    classCell(row.getCell('desktop'), perfClass(desktopPerf));
+    classCell(row.getCell('lcpMobile'), lcpClass(mobileLcp));
+    classCell(row.getCell('lcpDesktop'), lcpClass(desktopLcp));
   });
-  styleHeader(sheet);
 }
 
 function addJobRunsSheet(workbook, jobRuns) {
-  const sheet = workbook.addWorksheet('Ejecuciones de jobs');
-  sheet.columns = [
-    { header: 'Job', key: 'job', width: 22 },
-    { header: 'Origen', key: 'trigger', width: 14 },
-    { header: 'Inicio (Bogotá)', key: 'start', width: 20 },
-    { header: 'Fin (Bogotá)', key: 'end', width: 20 },
-    { header: 'Duración (s)', key: 'duration', width: 12 },
-    { header: 'Páginas', key: 'pages', width: 40 },
-    { header: 'Dispositivos', key: 'devices', width: 18 },
-    { header: 'Mediciones nuevas', key: 'added', width: 16 },
-    { header: 'Errores', key: 'errors', width: 10 },
-    { header: 'Estado', key: 'status', width: 14 }
-  ];
+  const { addRow } = createSheet(
+    workbook,
+    'Ejecuciones de jobs',
+    'Registro de ejecuciones de jobs',
+    'Cada fila corresponde a una ejecución; el origen indica si la lanzó el scheduler o se ejecutó manualmente.',
+    [
+      { header: 'Job', key: 'job', width: 21 },
+      { header: 'Origen', key: 'trigger', width: 12, align: 'center' },
+      { header: 'Fecha', key: 'date', width: 12, align: 'center' },
+      { header: 'Hora de inicio', key: 'start', width: 11, align: 'center' },
+      { header: 'Hora de fin', key: 'end', width: 11, align: 'center' },
+      { header: 'Duración (s)', key: 'duration', width: 11, align: 'center' },
+      { header: 'Páginas', key: 'pages', width: 58 },
+      { header: 'Dispositivos', key: 'devices', width: 20 },
+      { header: 'Mediciones nuevas', key: 'added', width: 12, align: 'center' },
+      { header: 'Errores', key: 'errors', width: 9, align: 'center' },
+      { header: 'Estado', key: 'status', width: 12, align: 'center' }
+    ]
+  );
 
   jobRuns.forEach((run) => {
-    const row = sheet.addRow({
+    const row = addRow({
       job: run.job,
-      trigger: run.trigger,
-      start: bogotaDate(run.startedAt),
-      end: bogotaDate(run.finishedAt),
+      trigger: run.trigger === 'scheduler' ? 'Scheduler' : 'Manual',
+      date: bogotaDay(run.startedAt),
+      start: bogotaTime(run.startedAt),
+      end: bogotaTime(run.finishedAt),
       duration: Math.round((new Date(run.finishedAt) - new Date(run.startedAt)) / 1000),
-      pages: (run.pages || []).join(', '),
-      devices: (run.devices || []).join(', '),
+      pages: (run.pages || []).map(pageName).join(', '),
+      devices: (run.devices || []).map((id) => DEVICE_NAMES[id] || id).join(', '),
       added: run.recordsAdded,
       errors: run.errors,
-      status: run.status === 'ok' ? '✔ OK' : '✖ Con fallos'
+      status: run.status === 'ok' ? 'Correcta' : 'Con fallos'
     });
-    paint(row.getCell('status'), run.status === 'ok' ? LABELS.Bueno : ERROR_STYLE);
+    classCell(row.getCell('status'), run.status === 'ok' ? 'Bueno' : 'Deficiente');
   });
-  styleHeader(sheet);
 }
 
 function addThresholdsSheet(workbook) {
-  const sheet = workbook.addWorksheet('Umbrales');
-  sheet.columns = [
-    { header: 'Métrica', key: 'metric', width: 18 },
-    { header: '✔ Bueno', key: 'good', width: 16 },
-    { header: '▲ Por mejorar', key: 'warn', width: 18 },
-    { header: '✖ Deficiente', key: 'bad', width: 16 }
-  ];
-  const names = {
-    firstContentfulPaint: 'FCP',
-    largestContentfulPaint: 'LCP',
-    speedIndex: 'Speed Index'
-  };
-  timeMetrics.forEach((metric) => {
+  const { sheet, addRow } = createSheet(
+    workbook,
+    'Umbrales',
+    'Umbrales de clasificación',
+    'Valores tomados de config/thresholds.js, único lugar donde se configuran.',
+    [
+      { header: 'Métrica', key: 'metric', width: 18 },
+      { header: 'Bueno', key: 'good', width: 18, align: 'center' },
+      { header: 'Por mejorar', key: 'warn', width: 22, align: 'center' },
+      { header: 'Deficiente', key: 'bad', width: 18, align: 'center' }
+    ]
+  );
+  const names = { firstContentfulPaint: 'FCP', largestContentfulPaint: 'LCP', speedIndex: 'Speed Index' };
+  const rows = Object.keys(names).map((metric) => {
     const { goodMax, needsImprovementMax } = thresholds[metric];
-    sheet.addRow({
+    return {
       metric: names[metric],
       good: `≤ ${goodMax / 1000} s`,
       warn: `> ${goodMax / 1000} s y ≤ ${needsImprovementMax / 1000} s`,
       bad: `> ${needsImprovementMax / 1000} s`
-    });
+    };
   });
   const { goodMin, needsImprovementMin } = thresholds.performance;
-  sheet.addRow({
-    metric: 'Performance',
-    good: `${goodMin}–100`,
-    warn: `${needsImprovementMin}–${goodMin - 1}`,
-    bad: `0–${needsImprovementMin - 1}`
+  rows.push({ metric: 'Performance', good: `${goodMin} a 100`, warn: `${needsImprovementMin} a ${goodMin - 1}`, bad: `0 a ${needsImprovementMin - 1}` });
+  rows.forEach((values) => {
+    const row = addRow(values);
+    classCell(row.getCell('good'), 'Bueno');
+    classCell(row.getCell('warn'), 'Por mejorar');
+    classCell(row.getCell('bad'), 'Deficiente');
   });
-  styleHeader(sheet);
   sheet.autoFilter = undefined;
-  ['good', 'warn', 'bad'].forEach((key, index) => {
-    const style = [LABELS.Bueno, LABELS['Por mejorar'], LABELS.Deficiente][index];
-    sheet.getColumn(key).eachCell((cell, rowNumber) => {
-      if (rowNumber > 1) paint(cell, style);
-    });
+}
+
+function addLegend(sheet) {
+  const start = sheet.rowCount + 2;
+  const title = sheet.getCell(start, 1);
+  title.value = 'Convenciones';
+  title.font = { name: FONT, size: 11, bold: true };
+  ['Bueno', 'Por mejorar', 'Deficiente'].forEach((label, index) => {
+    const cell = sheet.getCell(start + 1 + index, 1);
+    cell.value = label;
+    baseCell(cell);
+    classCell(cell, label);
   });
-  sheet.addRow([]);
-  sheet.addRow(['Fuente: config/thresholds.js (límites configurables en un solo lugar).']);
 }
 
 async function exportSpreadsheet({ lastJobRun = null } = {}) {
