@@ -1,0 +1,18 @@
+[
+  {
+    "job": "mobile-diario-20",
+    "trigger": "manual",
+    "startedAt": "2026-10-30T04:54:04.455Z",
+    "finishedAt": "2026-10-30T04:54:21.801Z",
+    "pages": [
+      "internacionalizacion"
+    ],
+    "devices": [
+      "mobile"
+    ],
+    "recordsAdded": 1,
+    "errors": 0,
+    "exitCode": 0,
+    "status": "ok"
+  }
+]

@@ -1,56 +1,13 @@
-const fs = require('node:fs');
-const path = require('node:path');
 const { defineConfig } = require('cypress');
 const { lighthouse, prepareAudit } = require('@cypress-audit/lighthouse');
 const { classifyMetric } = require('./config/thresholds');
 
+const { resultsPath, appendJsonArray } = require('./scripts/lib/history');
+
 let currentRunContext = null;
 
-function readHistory(filePath) {
-  if (!fs.existsSync(filePath)) return [];
-
-  const parsed = JSON.parse(fs.readFileSync(filePath, 'utf8'));
-  return Array.isArray(parsed) ? parsed : parsed.runs || [];
-}
-
-function sleep(milliseconds) {
-  Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, milliseconds);
-}
-
-function withHistoryLock(filePath, callback) {
-  const lockPath = `${filePath}.lock`;
-  const deadline = Date.now() + 10_000;
-  let lockHandle;
-
-  while (!lockHandle) {
-    try {
-      lockHandle = fs.openSync(lockPath, 'wx');
-    } catch (error) {
-      if (error.code !== 'EEXIST' || Date.now() >= deadline) throw error;
-      sleep(25);
-    }
-  }
-
-  try {
-    return callback();
-  } finally {
-    fs.closeSync(lockHandle);
-    try {
-      fs.unlinkSync(lockPath);
-    } catch (error) {
-      if (error.code !== 'ENOENT') throw error;
-    }
-  }
-}
-
-function appendResult(projectRoot, result) {
-  const filePath = path.join(projectRoot, 'data', 'results.json');
-  fs.mkdirSync(path.dirname(filePath), { recursive: true });
-  withHistoryLock(filePath, () => {
-    const history = readHistory(filePath);
-    history.push(result);
-    fs.writeFileSync(filePath, `${JSON.stringify(history, null, 2)}\n`, 'utf8');
-  });
+function appendResult(result) {
+  appendJsonArray(resultsPath, result);
 }
 
 // Datos de la página, el dispositivo y el job que se guardan en cada registro.
@@ -140,7 +97,7 @@ module.exports = defineConfig({
         },
 
         recordError({ error }) {
-          appendResult(config.projectRoot, {
+          appendResult({
             url: currentRunContext?.url || null,
             screenEmulation: currentRunContext?.screenEmulation || 'unknown',
             timestamp: new Date().toISOString(),
@@ -151,13 +108,14 @@ module.exports = defineConfig({
             performance: null,
             status: 'error',
             error: error || 'Evaluación fallida',
+            opportunities: [],
             classification: {}
           });
           return null;
         },
 
         lighthouse: lighthouse((report) => {
-          appendResult(config.projectRoot, normalizeReport(report));
+          appendResult(normalizeReport(report));
         })
       });
 

@@ -604,5 +604,44 @@
       "speedIndex": "Bueno",
       "performance": "Por mejorar"
     }
+  },
+  {
+    "url": "https://www.autonoma.edu.co/internacionalizacion",
+    "screenEmulation": "Moto G4 (412x823)",
+    "timestamp": "2026-10-30T04:54:21.680Z",
+    "pageId": "internacionalizacion",
+    "pageName": "Internacionalización",
+    "owner": "Isabela Quintero Murillo",
+    "deviceId": "mobile",
+    "job": "mobile-diario-20",
+    "firstContentfulPaint": 951.375,
+    "largestContentfulPaint": 980.375,
+    "speedIndex": 2417.3507749968167,
+    "performance": 94,
+    "status": "ok",
+    "error": null,
+    "opportunities": [
+      {
+        "id": "unused-javascript",
+        "title": "Reduce el contenido JavaScript que no se use",
+        "savingsMs": 1050
+      },
+      {
+        "id": "uses-text-compression",
+        "title": "Habilita la compresión de texto",
+        "savingsMs": 600
+      },
+      {
+        "id": "uses-http2",
+        "title": "Usa HTTP/2",
+        "savingsMs": 150
+      }
+    ],
+    "classification": {
+      "firstContentfulPaint": "Bueno",
+      "largestContentfulPaint": "Bueno",
+      "speedIndex": "Bueno",
+      "performance": "Bueno"
+    }
   }
 ]

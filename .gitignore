@@ -12,7 +12,9 @@ cypress/downloads/*
 !.env.example
 *.log
 npm-debug.log*
-data/results.json.lock
+data/*.lock
+spreadsheet/*.tmp
+spreadsheet/~$*
 
 # Archivos propios del sistema operativo
 .DS_Store

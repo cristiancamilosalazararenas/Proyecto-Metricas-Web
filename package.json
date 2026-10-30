@@ -9,11 +9,13 @@
     "audit": "node scripts/run-audit.js",
     "scheduler": "node scripts/scheduler.js",
     "report": "http-server . -p 4173 -c-1 -o /report/",
-    "validate:config": "node scripts/validate-config.js"
+    "validate:config": "node scripts/validate-config.js",
+    "spreadsheet": "node scripts/export-spreadsheet.js"
   },
   "devDependencies": {
     "@cypress-audit/lighthouse": "^1.4.2",
     "cypress": "^16.2.0",
+    "exceljs": "^4.4.0",
     "http-server": "^14.1.1",
     "node-cron": "^4.6.0"
   }
