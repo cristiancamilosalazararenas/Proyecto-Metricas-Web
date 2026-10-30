@@ -14,7 +14,8 @@ module.exports = {
         deviceScaleFactor: 1,
         disabled: false
       },
-      onlyCategories: ['performance']
+      onlyCategories: ['performance'],
+      locale: 'es'
     }
   },
   desktop: {
@@ -32,7 +33,8 @@ module.exports = {
         deviceScaleFactor: 1,
         disabled: false
       },
-      onlyCategories: ['performance']
+      onlyCategories: ['performance'],
+      locale: 'es'
     }
   }
 };

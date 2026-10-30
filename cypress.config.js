@@ -53,6 +53,31 @@ function appendResult(projectRoot, result) {
   });
 }
 
+// Datos de la página, el dispositivo y el job que se guardan en cada registro.
+function runContextFields() {
+  return {
+    pageId: currentRunContext?.pageId || null,
+    pageName: currentRunContext?.pageName || null,
+    owner: currentRunContext?.owner || null,
+    deviceId: currentRunContext?.deviceId || null,
+    job: currentRunContext?.job || 'manual'
+  };
+}
+
+// Las tres oportunidades de Lighthouse con mayor ahorro estimado; sirven de base
+// para las recomendaciones del informe.
+function topOpportunities(lhr, limit = 3) {
+  return Object.values(lhr.audits || {})
+    .filter((audit) => audit.details?.type === 'opportunity' && audit.details.overallSavingsMs > 0)
+    .sort((a, b) => b.details.overallSavingsMs - a.details.overallSavingsMs)
+    .slice(0, limit)
+    .map((audit) => ({
+      id: audit.id,
+      title: audit.title,
+      savingsMs: Math.round(audit.details.overallSavingsMs)
+    }));
+}
+
 function normalizeReport(report) {
   const lhr = report.lhr || report;
   const value = (auditId) => lhr.audits?.[auditId]?.numericValue ?? null;
@@ -63,12 +88,14 @@ function normalizeReport(report) {
     url: currentRunContext?.url || lhr.finalDisplayedUrl || lhr.requestedUrl || null,
     screenEmulation: currentRunContext?.screenEmulation || 'unknown',
     timestamp: new Date().toISOString(),
+    ...runContextFields(),
     firstContentfulPaint: value('first-contentful-paint'),
     largestContentfulPaint: value('largest-contentful-paint'),
     speedIndex: value('speed-index'),
     performance,
     status: 'ok',
-    error: null
+    error: null,
+    opportunities: topOpportunities(lhr)
   };
 
   result.classification = {
@@ -117,6 +144,7 @@ module.exports = defineConfig({
             url: currentRunContext?.url || null,
             screenEmulation: currentRunContext?.screenEmulation || 'unknown',
             timestamp: new Date().toISOString(),
+            ...runContextFields(),
             firstContentfulPaint: null,
             largestContentfulPaint: null,
             speedIndex: null,

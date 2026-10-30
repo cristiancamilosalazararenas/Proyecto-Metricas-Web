@@ -53,9 +53,11 @@ describe('Métricas Lighthouse de páginas institucionales', () => {
         cy.task('setRunContext', {
           url: page.url,
           pageId: page.id,
+          pageName: page.name,
           owner: page.owner,
           deviceId: device.id,
-          screenEmulation: device.screenEmulation
+          screenEmulation: device.screenEmulation,
+          job: requestedJobId || 'manual'
         });
 
         cy.viewport(device.width, device.height);
